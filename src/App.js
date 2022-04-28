@@ -1,4 +1,8 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword,
+        onAuthStateChanged,
+        signInWithEmailAndPassword,
+        signOut
+ } from 'firebase/auth';
 import { auth } from './firebase-config';
 import { useState } from 'react';
 
@@ -8,6 +12,15 @@ function App() {
 
   const [registerEmail, setRegisterEmail] = useState("");
   const [registerPassword, setRegisterPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+
+  const [user, setUser] = useState("");
+
+  onAuthStateChanged(auth,(currentUser)=>{
+    setUser(currentUser);
+  })
+
 
   const register = async () => {
     try {
@@ -17,6 +30,27 @@ function App() {
         registerPassword
       )
     } catch(error){
+      console.log(error.message);
+    }
+
+  }
+
+  const login = async () => {
+    try {
+      const user = await signInWithEmailAndPassword(
+        auth,
+        loginEmail,
+        loginPassword
+      )
+    } catch(error){
+      console.log(error.message);
+    }
+
+  }
+  const logout = async() => {
+    try {
+    await signOut(auth);
+    } catch(error) {
       console.log(error.message);
     }
 
@@ -33,7 +67,21 @@ function App() {
           setRegisterPassword(event.target.value);
         }}/>
         <button onClick={register}>Créer utilisateur</button>
-        </div>      
+        </div>  
+        <div>
+          <h3>Authentification</h3>
+          <input placeholder='E-mail' onChange={(event)=>{
+            setLoginEmail(event.target.value)
+          }}/>
+          <input placeholder='Mot de passe' onChange={(event)=>{
+          setLoginPassword(event.target.value);
+        }}/>
+          <button onClick={login}>Connexion</button>
+          </div>  
+          <h4>Utilisateur Connecté</h4>  
+          {user?.email}
+
+          <button onClick={logout}>Se déconnecter</button>
     </div>
   );
 }
