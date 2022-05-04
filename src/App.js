@@ -18,8 +18,11 @@ function App() {
   const [user, setUser] = useState("");
 
   onAuthStateChanged(auth,(currentUser)=>{
-    setUser(currentUser);
+    if (currentUser) {
+      setUser(currentUser);
+    }
   })
+  
 
 
   const register = async () => {
@@ -28,7 +31,8 @@ function App() {
         auth,
         registerEmail,
         registerPassword
-      )
+      );
+      console.log(user);
     } catch(error){
       console.log(error.message);
     }
@@ -41,7 +45,8 @@ function App() {
         auth,
         loginEmail,
         loginPassword
-      )
+      );
+      console.log(user);
     } catch(error){
       console.log(error.message);
     }
@@ -78,10 +83,11 @@ function App() {
         }}/>
           <button onClick={login}>Connexion</button>
           </div>  
-          <h4>Utilisateur Connecté</h4>  
-          {user?.email}
-
+          <div><h5>Utilisateur Connecté</h5>  
+          {user?.email}<br/>
+          <br/>
           <button onClick={logout}>Se déconnecter</button>
+          </div>
     </div>
   );
 }
