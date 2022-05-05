@@ -63,6 +63,7 @@ function App() {
 
   return (
     <div className="App">
+      <h1>Welcome to our website!</h1>
       <div>
         <h3>Enregistrement</h3>
         <input placeholder='E-mail' onChange={(event)=>{
