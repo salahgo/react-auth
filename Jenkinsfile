@@ -98,7 +98,7 @@ def readMinorVersionFromGitHub() {
 }
 
 def writeMajorVersionToGitHub(majorVersion) {
-sh "curl --request PATCH --url https://api.github.com/repos/salahgo/react-auth/releases/latest --header 'Authorization: token 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' --header 'Content-Type: application/json' --data '{\"tag_name": "v${majorVersion}.${readMinorVersionFromGitHub()}-${getBranchSuffix(env.BRANCH_NAME)}"}'"
+sh "curl --request PATCH --url https://api.github.com/repos/salahgo/react-auth/releases/latest --header 'Authorization: token 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' --header 'Content-Type: application/json' --data '{"tag_name": "v${majorVersion}.${readMinorVersionFromGitHub()}-${getBranchSuffix(env.BRANCH_NAME)}"}'"
 }
 
 def writeMinorVersionToGitHub(minorVersion) {
